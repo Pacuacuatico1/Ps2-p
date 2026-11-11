@@ -1,0 +1,18 @@
+name: build-ps2
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ps2dev/ps2dev:latest
+    steps:
+      - run: apk add --no-cache git nodejs python3 xorriso make
+      - uses: actions/checkout@v4
+      - run: make iso
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prisma-ps2
+          path: |
+            prisma.iso
+            prisma.elf
